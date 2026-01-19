@@ -54,11 +54,18 @@ const Index = () => {
     
     const term = searchTerm.toLowerCase();
     return notas.filter(nota => 
-      nota.numero.toLowerCase().includes(term) ||
-      nota.fornecedorCliente.toLowerCase().includes(term) ||
-      nota.tipo.toLowerCase().includes(term) ||
-      nota.tipoOperacao.toLowerCase().includes(term) ||
-      nota.dataEmissao.toLowerCase().includes(term)
+      nota.chaveAcesso?.toLowerCase().includes(term) ||
+      nota.numero?.toLowerCase().includes(term) ||
+      nota.danfe?.toLowerCase().includes(term) ||
+      nota.cte?.toLowerCase().includes(term) ||
+      nota.fornecedorCliente?.toLowerCase().includes(term) ||
+      nota.cliente?.toLowerCase().includes(term) ||
+      nota.empresa?.toLowerCase().includes(term) ||
+      nota.produto?.toLowerCase().includes(term) ||
+      nota.tipo?.toLowerCase().includes(term) ||
+      nota.tipoOperacao?.toLowerCase().includes(term) ||
+      nota.dataEmissao?.toLowerCase().includes(term) ||
+      nota.data?.toLowerCase().includes(term)
     );
   }, [notas, searchTerm]);
 
@@ -111,7 +118,7 @@ const Index = () => {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
                       type="text"
-                      placeholder="Pesquisar por número, fornecedor..."
+                      placeholder="Pesquisar por chave, DANFE, CTE, produto..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-9"
