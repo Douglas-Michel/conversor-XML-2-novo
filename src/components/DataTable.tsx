@@ -71,7 +71,6 @@ export function DataTable({ data }: DataTableProps) {
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG COMPRA S/IPI</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">R$ COMPRA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG VENDA</TableHead>
-                <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG VENDA C/IPI</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG VENDA S/IPI</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">R$ VENDA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">CUSTO FRETE KG</TableHead>
@@ -118,7 +117,6 @@ export function DataTable({ data }: DataTableProps) {
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorKgCompraSemIpi)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorCompra)}</TableCell>
                   <TableCell className="text-right tabular-nums font-medium whitespace-nowrap">{formatCurrency(nota.valorUnitario)}</TableCell>
-                  <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorKgVendaComIpi)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorKgVendaSemIpi)}</TableCell>
                   <TableCell className="text-right tabular-nums font-medium whitespace-nowrap">{formatCurrency(nota.valorVenda)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.custoFreteKg)}</TableCell>

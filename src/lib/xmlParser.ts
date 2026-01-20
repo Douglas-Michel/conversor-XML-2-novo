@@ -66,7 +66,6 @@ export interface NotaFiscal {
   valorKgCompraSemIpi: number; // $ KG - (COMPRA) S/IPI (manual)
   valorCompra: number;       // R$ COMPRA (manual)
   valorUnitario: number;     // $ KG (VENDA) - valor unitário
-  valorKgVendaComIpi: number; // $ KG - (VENDA) C/IPI (calculado)
   valorKgVendaSemIpi: number; // $ KG VENDA - S/IPI (manual)
   valorVenda: number;        // R$ - VENDA (calculado)
   custoFreteKg: number;      // Custo frete KG (manual)
@@ -1047,7 +1046,6 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       valorKgCompraSemIpi: 0,
       valorCompra: 0,
       valorUnitario: 0,
-      valorKgVendaComIpi: 0,
       valorKgVendaSemIpi: 0,
       valorVenda: 0,
       custoFreteKg: 0,
@@ -1067,9 +1065,8 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
   // Retorna um registro para cada produto (explode a nota)
   return produtos.map(prod => {
     const peso = prod.quantidade;
-    const valorUnitario = prod.valorUnitario;
-    const valorVenda = peso * valorUnitario;
-    const valorKgVendaComIpi = valorUnitario * (1 + prod.aliquotaIPI / 100);
+    const valorSemIpi = prod.valorUnitario; // Valor original do XML (sem IPI)
+    const valorComIpi = valorSemIpi * (1 + prod.aliquotaIPI / 100); // Valor com IPI
     
     return {
       id: crypto.randomUUID(),
@@ -1095,10 +1092,9 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       valorKgCompra: 0,
       valorKgCompraSemIpi: 0,
       valorCompra: 0,
-      valorUnitario,
-      valorKgVendaComIpi,
-      valorKgVendaSemIpi: 0,
-      valorVenda,
+      valorUnitario: valorComIpi,        // $ KG - (VENDA) agora tem o valor COM IPI
+      valorKgVendaSemIpi: valorSemIpi,   // $ KG VENDA - S/IPI tem o valor original do XML
+      valorVenda: 0,                     // Preenchimento manual
       custoFreteKg: 0,
       nome: '',
       comissaoRepresentante: 0,
@@ -1188,7 +1184,6 @@ function parseCTe(doc: Element, fileName: string): NotaFiscal[] {
     valorKgCompraSemIpi: 0,
     valorCompra: 0,
     valorUnitario: 0,
-    valorKgVendaComIpi: 0,
     valorKgVendaSemIpi: 0,
     valorVenda: 0,
     custoFreteKg: 0,
@@ -1294,7 +1289,6 @@ export function parseNFeXML(xmlContent: string, fileName: string): NotaFiscal[] 
         valorKgCompraSemIpi: 0,
         valorCompra: 0,
         valorUnitario: 0,
-        valorKgVendaComIpi: 0,
         valorKgVendaSemIpi: 0,
         valorVenda: 0,
         custoFreteKg: 0,
