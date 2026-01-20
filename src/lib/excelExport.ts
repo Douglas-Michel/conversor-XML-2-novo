@@ -32,6 +32,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     '$ KG - (COMPRA) S/IPI': nota.valorKgCompraSemIpi,
     'R$ COMPRA': nota.valorCompra,
     '$ KG - (VENDA)': nota.valorUnitario,
+    '$ KG - (VENDA) C/IPI': nota.valorKgVendaComIpi,
     '$ KG VENDA - S/IPI': nota.valorKgVendaSemIpi,
     'R$ - VENDA': nota.valorVenda,
     'CUSTO FRETE KG': nota.custoFreteKg,
@@ -56,7 +57,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     const range = XLSX.utils.decode_range(ref);
     const currencyHeaders = [
       'VALOR DO FRETE', '$ KG - (COMPRA)', '$ KG - (COMPRA) S/IPI', 'R$ COMPRA', 
-      '$ KG - (VENDA)', '$ KG VENDA - S/IPI', 'R$ - VENDA', 'CUSTO FRETE KG',
+      '$ KG - (VENDA)', '$ KG - (VENDA) C/IPI', '$ KG VENDA - S/IPI', 'R$ - VENDA', 'CUSTO FRETE KG',
       'COM. REPRESENTANTE', 'COMISSÃO VENDEDOR', 'COMISSAO MATRIZ/MC NF',
       'CMV', 'RESULTADO'
     ];
@@ -178,6 +179,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     { wch: 18 },  // $ KG - (COMPRA) S/IPI
     { wch: 15 },  // R$ COMPRA
     { wch: 15 },  // $ KG - (VENDA)
+    { wch: 18 },  // $ KG - (VENDA) C/IPI
     { wch: 18 },  // $ KG VENDA - S/IPI
     { wch: 15 },  // R$ - VENDA
     { wch: 15 },  // CUSTO FRETE KG
