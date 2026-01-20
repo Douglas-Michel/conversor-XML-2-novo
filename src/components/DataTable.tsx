@@ -108,7 +108,7 @@ export function DataTable({ data }: DataTableProps) {
                   <TableCell className="text-center text-sm font-medium">{nota.uf}</TableCell>
                   <TableCell className="font-mono text-sm text-center">{nota.danfe || '-'}</TableCell>
                   <TableCell className="text-sm">{nota.matrizMcNf}</TableCell>
-                  <TableCell className="max-w-[300px] truncate text-sm" title={nota.produto}>{nota.produto}</TableCell>
+                  <TableCell className="text-sm">{nota.produto}</TableCell>
                   <TableCell className="text-sm">{nota.tipoMat}</TableCell>
                   <TableCell className="text-sm">{nota.fornecedor}</TableCell>
                   <TableCell className="text-sm">{nota.lote}</TableCell>

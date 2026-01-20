@@ -797,9 +797,8 @@ function extractMaterials(doc: Element): string {
   
   if (unique.length === 0) return '';
   
-  // Retorna apenas o primeiro produto limitado a 30 caracteres
-  const firstProduct = unique[0];
-  return firstProduct.length > 30 ? firstProduct.substring(0, 30) + '...' : firstProduct;
+  // Retorna o nome completo do primeiro produto
+  return unique[0];
 }
 
 // ============================================================================
@@ -1013,14 +1012,38 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       chaveAcesso,
       data,
       empresa,
+      vendedor: '',
+      representante: '',
+      segmento: '',
       cte,
       transportadora,
+      valorFrete: 0,
       cliente,
       uf,
       danfe,
+      matrizMcNf: '',
       produto: '',
+      tipoMat: '',
+      fornecedor: '',
+      lote: '',
       peso: 0,
+      valorKgCompra: 0,
+      valorKgCompraSemIpi: 0,
+      valorCompra: 0,
       valorUnitario: 0,
+      valorKgVendaSemIpi: 0,
+      valorVenda: 0,
+      custoFreteKg: 0,
+      nome: '',
+      comissaoRepresentante: 0,
+      comissaoVendedor: 0,
+      comissaoMatriz: 0,
+      cmv: 0,
+      resultado: 0,
+      margem: 0,
+      estado: '',
+      venda: 0,
+      lucro: 0,
     }];
   }
   
