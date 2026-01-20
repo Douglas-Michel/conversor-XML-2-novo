@@ -63,7 +63,6 @@ export function DataTable({ data }: DataTableProps) {
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-center">DANFE</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">MATRIZ/MC NF</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">PRODUTO</TableHead>
-                <TableHead className="font-semibold text-foreground whitespace-nowrap">TIPOMAT</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">FORNECEDOR</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">LOTE</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">PESO</TableHead>
@@ -85,6 +84,7 @@ export function DataTable({ data }: DataTableProps) {
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">ESTADO</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">VENDA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">LUCRO</TableHead>
+                <TableHead className="font-semibold text-foreground whitespace-nowrap">TIPOMAT</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">EMPRESA (XML)</TableHead>
               </TableRow>
             </TableHeader>
@@ -110,7 +110,6 @@ export function DataTable({ data }: DataTableProps) {
                   <TableCell className="font-mono text-sm text-center">{nota.danfe || '-'}</TableCell>
                   <TableCell className="text-sm">{nota.matrizMcNf}</TableCell>
                   <TableCell className="text-sm">{nota.produto}</TableCell>
-                  <TableCell className="text-sm">{nota.tipoMat}</TableCell>
                   <TableCell className="text-sm">{nota.fornecedor}</TableCell>
                   <TableCell className="text-sm">{nota.lote}</TableCell>
                   <TableCell className="text-right tabular-nums font-medium whitespace-nowrap">{nota.peso}</TableCell>
@@ -139,6 +138,7 @@ export function DataTable({ data }: DataTableProps) {
                   <TableCell className="text-sm">{nota.estado}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.venda)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.lucro)}</TableCell>
+                  <TableCell className="text-sm">{nota.tipoMat}</TableCell>
                   <TableCell className="max-w-[200px] truncate text-sm" title={nota.empresaXml}>{nota.empresaXml}</TableCell>
                 </motion.tr>
               ))}

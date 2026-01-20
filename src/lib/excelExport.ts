@@ -24,7 +24,6 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     'DANFE': nota.danfe || '',
     'MATRIZ/MC NF': nota.matrizMcNf?.toUpperCase() || '',
     'PRODUTO': nota.produto?.toUpperCase() || '',
-    'TIPOMAT': nota.tipoMat?.toUpperCase() || '',
     'FORNECEDOR': nota.fornecedor?.toUpperCase() || '',
     'LOTE': nota.lote?.toUpperCase() || '',
     'PESO': nota.peso,
@@ -46,6 +45,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     'ESTADO': '',
     'VENDA': '',
     'LUCRO': '',
+    'TIPOMAT': nota.tipoMat?.toUpperCase() || '',
     'EMPRESA (XML)': nota.empresaXml?.toUpperCase() || '',
   }));
 
@@ -171,7 +171,6 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     { wch: 12 },  // DANFE
     { wch: 20 },  // MATRIZ/MC NF
     { wch: 50 },  // PRODUTO
-    { wch: 15 },  // TIPOMAT
     { wch: 30 },  // FORNECEDOR
     { wch: 15 },  // LOTE
     { wch: 12 },  // PESO
@@ -193,6 +192,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     { wch: 15 },  // ESTADO
     { wch: 15 },  // VENDA
     { wch: 15 },  // LUCRO
+    { wch: 15 },  // TIPOMAT
     { wch: 35 },  // EMPRESA (XML)
   ];
   
