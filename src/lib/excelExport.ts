@@ -46,6 +46,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     'ESTADO': '',
     'VENDA': '',
     'LUCRO': '',
+    'EMPRESA (XML)': nota.empresaXml?.toUpperCase() || '',
   }));
 
   const worksheet = XLSX.utils.json_to_sheet(data);
@@ -192,6 +193,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     { wch: 15 },  // ESTADO
     { wch: 15 },  // VENDA
     { wch: 15 },  // LUCRO
+    { wch: 35 },  // EMPRESA (XML)
   ];
   
   worksheet['!cols'] = columnWidths;

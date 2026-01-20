@@ -85,6 +85,7 @@ export function DataTable({ data }: DataTableProps) {
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">ESTADO</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">VENDA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">LUCRO</TableHead>
+                <TableHead className="font-semibold text-foreground whitespace-nowrap">EMPRESA (XML)</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -138,6 +139,7 @@ export function DataTable({ data }: DataTableProps) {
                   <TableCell className="text-sm">{nota.estado}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.venda)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.lucro)}</TableCell>
+                  <TableCell className="max-w-[200px] truncate text-sm" title={nota.empresaXml}>{nota.empresaXml}</TableCell>
                 </motion.tr>
               ))}
             </TableBody>

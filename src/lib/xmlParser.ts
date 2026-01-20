@@ -44,7 +44,7 @@ export interface NotaFiscal {
   
   // Dados principais da nota
   data: string;              // Data de expedição
-  empresa: string;           // Empresa emitente
+  empresa: string;           // Empresa (manual)
   vendedor: string;          // Vendedor (manual)
   representante: string;     // Representante (manual)
   segmento: string;          // Segmento (manual)
@@ -79,6 +79,7 @@ export interface NotaFiscal {
   estado: string;            // Estado (manual)
   venda: number;             // Venda (manual)
   lucro: number;             // Lucro (manual)
+  empresaXml: string;        // Empresa do XML (referência)
   
   // Metadados internos
   chaveAcesso: string;
@@ -1026,7 +1027,7 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       tipo: 'NF-e',
       chaveAcesso,
       data,
-      empresa,
+      empresa: '',
       vendedor: '',
       representante: '',
       segmento: '',
@@ -1059,6 +1060,7 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       estado: '',
       venda: 0,
       lucro: 0,
+      empresaXml: empresa,
     }];
   }
   
@@ -1073,7 +1075,7 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       tipo: 'NF-e',
       chaveAcesso,
       data,
-      empresa,
+      empresa: '',
       vendedor: '',
       representante: '',
       segmento: '',
@@ -1106,6 +1108,7 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       estado: '',
       venda: 0,
       lucro: 0,
+      empresaXml: empresa,
     };
   });
 }
@@ -1164,7 +1167,7 @@ function parseCTe(doc: Element, fileName: string): NotaFiscal[] {
     tipo: 'CT-e',
     chaveAcesso,
     data,
-    empresa,
+    empresa: '',
     vendedor: '',
     representante: '',
     segmento: '',
@@ -1197,6 +1200,7 @@ function parseCTe(doc: Element, fileName: string): NotaFiscal[] {
     estado: '',
     venda: 0,
     lucro: 0,
+    empresaXml: empresa,
   }];
 }
 
@@ -1302,6 +1306,7 @@ export function parseNFeXML(xmlContent: string, fileName: string): NotaFiscal[] 
         estado: '',
         venda: 0,
         lucro: 0,
+        empresaXml: '',
       }];
     }
 
