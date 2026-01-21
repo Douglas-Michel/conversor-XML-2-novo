@@ -10,9 +10,21 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
   const today = getTodayBRDate();
 
   // Prepara os dados para exportação com as novas colunas
-  const data = notas.map((nota) => ({
-    'DATA': nota.data || today,
-    'EMPRESA': nota.empresa?.toUpperCase() || '',
+  const data = notas.map((nota) => {
+    // Converte a data de string dd/mm/yyyy para objeto Date
+    let dataValue = nota.data || today;
+    let dateObj: Date | string = dataValue;
+    
+    if (typeof dataValue === 'string' && dataValue.includes('/')) {
+      const [day, month, year] = dataValue.split('/').map(Number);
+      if (day && month && year) {
+        dateObj = new Date(year, month - 1, day);
+      }
+    }
+    
+    return {
+      'DATA': dateObj,
+      'EMPRESA': nota.empresa?.toUpperCase() || '',
     'VENDEDOR': nota.vendedor?.toUpperCase() || '',
     'REPRESENTANTE': nota.representante?.toUpperCase() || '',
     'SEGMENTO': nota.segmento?.toUpperCase() || '',
@@ -27,11 +39,11 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     'FORNECEDOR': nota.fornecedor?.toUpperCase() || '',
     'LOTE': nota.lote?.toUpperCase() || '',
     'PESO': nota.peso,
-    '$ KG - (COMPRA)': nota.valorKgCompra || '',
-    '$ KG - (COMPRA) S/IPI': nota.valorKgCompraSemIpi || '',
-    'R$ COMPRA': nota.valorCompra || '',
+    '$ KG COMPRA - S/IPI': nota.valorKgCompraSemIpi || '',
     '$ KG - (VENDA)': nota.valorUnitario,
     '$ KG VENDA - S/IPI': nota.valorKgVendaSemIpi,
+    '$ KG - (COMPRA)': nota.valorKgCompra || '',
+    'R$ COMPRA': nota.valorCompra || '',
     'R$ - VENDA': nota.valorVenda,
     'CUSTO FRETE KG': nota.custoFreteKg || '',
     'NOME': nota.nome?.toUpperCase() || '',
@@ -46,8 +58,9 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     'VENDA': '',
     'LUCRO': '',
     'TIPOMAT': nota.tipoMat?.toUpperCase() || '',
-    'EMPRESA (XML)': nota.empresaXml?.toUpperCase() || '',
-  }));
+    'EMP': nota.empresaXml?.toUpperCase() || '',
+  };
+  });
 
   const worksheet = XLSX.utils.json_to_sheet(data);
 
@@ -137,7 +150,22 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
           const addr = XLSX.utils.encode_cell({ c, r });
           const cell = worksheet[addr];
           if (cell && cell.v) {
-            cell.z = 'DD/MM/YYYY';
+            // Se for um objeto Date, define como tipo data
+            if (cell.v instanceof Date) {
+              cell.t = 'd';
+              cell.z = 'DD/MM/YYYY';
+            } else {
+              // Se for string, tenta converter para data
+              const dateStr = String(cell.v);
+              if (dateStr.includes('/')) {
+                const [day, month, year] = dateStr.split('/').map(Number);
+                if (day && month && year) {
+                  cell.v = new Date(year, month - 1, day);
+                  cell.t = 'd';
+                  cell.z = 'DD/MM/YYYY';
+                }
+              }
+            }
           }
         }
       }
@@ -174,11 +202,11 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     { wch: 30 },  // FORNECEDOR
     { wch: 15 },  // LOTE
     { wch: 12 },  // PESO
-    { wch: 15 },  // $ KG - (COMPRA)
-    { wch: 18 },  // $ KG - (COMPRA) S/IPI
-    { wch: 15 },  // R$ COMPRA
+    { wch: 18 },  // $ KG COMPRA - S/IPI
     { wch: 15 },  // $ KG - (VENDA)
     { wch: 18 },  // $ KG VENDA - S/IPI
+    { wch: 15 },  // $ KG - (COMPRA)
+    { wch: 15 },  // R$ COMPRA
     { wch: 15 },  // R$ - VENDA
     { wch: 15 },  // CUSTO FRETE KG
     { wch: 25 },  // NOME
@@ -193,7 +221,7 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
     { wch: 15 },  // VENDA
     { wch: 15 },  // LUCRO
     { wch: 15 },  // TIPOMAT
-    { wch: 35 },  // EMPRESA (XML)
+    { wch: 35 },  // EMP
   ];
   
   worksheet['!cols'] = columnWidths;

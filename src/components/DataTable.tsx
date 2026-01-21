@@ -66,11 +66,11 @@ export function DataTable({ data }: DataTableProps) {
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">FORNECEDOR</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">LOTE</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">PESO</TableHead>
-                <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG COMPRA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG COMPRA S/IPI</TableHead>
-                <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">R$ COMPRA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG VENDA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG VENDA S/IPI</TableHead>
+                <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">$ KG COMPRA</TableHead>
+                <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">R$ COMPRA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">R$ VENDA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">CUSTO FRETE KG</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">NOME</TableHead>
@@ -85,7 +85,7 @@ export function DataTable({ data }: DataTableProps) {
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">VENDA</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap text-right">LUCRO</TableHead>
                 <TableHead className="font-semibold text-foreground whitespace-nowrap">TIPOMAT</TableHead>
-                <TableHead className="font-semibold text-foreground whitespace-nowrap">EMPRESA (XML)</TableHead>
+                <TableHead className="font-semibold text-foreground whitespace-nowrap">EMP</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -113,11 +113,11 @@ export function DataTable({ data }: DataTableProps) {
                   <TableCell className="text-sm">{nota.fornecedor}</TableCell>
                   <TableCell className="text-sm">{nota.lote}</TableCell>
                   <TableCell className="text-right tabular-nums font-medium whitespace-nowrap">{nota.peso}</TableCell>
-                  <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorKgCompra)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorKgCompraSemIpi)}</TableCell>
-                  <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorCompra)}</TableCell>
                   <TableCell className="text-right tabular-nums font-medium whitespace-nowrap">{formatCurrency(nota.valorUnitario)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorKgVendaSemIpi)}</TableCell>
+                  <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorKgCompra)}</TableCell>
+                  <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.valorCompra)}</TableCell>
                   <TableCell className="text-right tabular-nums font-medium whitespace-nowrap">{formatCurrency(nota.valorVenda)}</TableCell>
                   <TableCell className="text-right tabular-nums whitespace-nowrap">{formatCurrency(nota.custoFreteKg)}</TableCell>
                   <TableCell className="text-sm">{nota.nome}</TableCell>

@@ -573,11 +573,13 @@ function formatDate(dateStr: string): string {
   if (!dateStr) return '';
   
   try {
-    const datePart = dateStr.split('T')[0];
-    const [year, month, day] = datePart.split('-');
+    const datePart = dateStr.split('T')[0].trim();
+    const [year, month, day] = datePart.split('-').map(s => s.trim());
     
     if (year && month && day) {
-      return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+      const dayFormatted = String(parseInt(day, 10)).padStart(2, '0');
+      const monthFormatted = String(parseInt(month, 10)).padStart(2, '0');
+      return `${dayFormatted}/${monthFormatted}/${year}`;
     }
     
     return dateStr;
