@@ -11,14 +11,15 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
 
   // Prepara os dados para exportação com as novas colunas
   const data = notas.map((nota) => {
-    // Converte a data de string dd/mm/yyyy para objeto Date
+    // Converte a data de string dd/mm/yyyy para objeto Date usando meio-dia para evitar problemas de fuso horário
     let dataValue = nota.data || today;
     let dateObj: Date | string = dataValue;
     
     if (typeof dataValue === 'string' && dataValue.includes('/')) {
       const [day, month, year] = dataValue.split('/').map(Number);
       if (day && month && year) {
-        dateObj = new Date(year, month - 1, day);
+        // Usa meio-dia (12:00) para evitar problemas de fuso horário
+        dateObj = new Date(year, month - 1, day, 12, 0, 0);
       }
     }
     
@@ -155,12 +156,12 @@ export function exportToExcel(notas: NotaFiscal[], fileName: string = 'notas_pro
               cell.t = 'd';
               cell.z = 'DD/MM/YYYY';
             } else {
-              // Se for string, tenta converter para data
+              // Se for string, tenta converter para data com meio-dia para evitar problema de fuso
               const dateStr = String(cell.v);
               if (dateStr.includes('/')) {
                 const [day, month, year] = dateStr.split('/').map(Number);
                 if (day && month && year) {
-                  cell.v = new Date(year, month - 1, day);
+                  cell.v = new Date(year, month - 1, day, 12, 0, 0);
                   cell.t = 'd';
                   cell.z = 'DD/MM/YYYY';
                 }
