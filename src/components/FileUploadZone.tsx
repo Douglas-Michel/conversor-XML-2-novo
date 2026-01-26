@@ -4,6 +4,8 @@ import { Upload, FileText, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import { parseNFeXML, NotaFiscal } from '@/lib/xmlParser';
 import { DuplicateDialog } from './DuplicateDialog';
 import { ErrorDialog } from './ErrorDialog';
+import { CFOPSelectionDialog } from './CFOPSelectionDialog';
+import { verificarCFOPsRestritos } from '@/lib/cfopPermissions';
 
 interface FileError {
   fileName: string;
@@ -25,6 +27,8 @@ export function FileUploadZone({ onFilesProcessed, isProcessing, setIsProcessing
   const [showDuplicateDialog, setShowDuplicateDialog] = useState(false);
   const [fileErrors, setFileErrors] = useState<FileError[]>([]);
   const [showErrorDialog, setShowErrorDialog] = useState(false);
+  const [notasComCFOP, setNotasComCFOP] = useState<NotaFiscal[]>([]);
+  const [showCFOPDialog, setShowCFOPDialog] = useState(false);
 
   // Lê conteúdo de arquivo com detecção de encoding e fallback
   async function readFileContent(file: File): Promise<string> {
@@ -131,12 +135,21 @@ export function FileUploadZone({ onFilesProcessed, isProcessing, setIsProcessing
       !existingIdentifiers.has(`${n.chaveAcesso}|${n.produto}|${n.peso}`)
     );
 
+    // Verifica CFOPs restritos ANTES de processar
+    const cfops = uniqueNotas.map(n => n.cfop).filter(Boolean);
+    const stats = verificarCFOPsRestritos(cfops);
+
     if (duplicateNotas.length > 0) {
       setPendingNotas(uniqueNotas);
       setDuplicates(duplicateNotas);
       setShowDuplicateDialog(true);
+    } else if (stats.restritos > 0 && uniqueNotas.length > 0) {
+      // Tem CFOPs restritos, mostra diálogo de seleção
+      setNotasComCFOP(uniqueNotas);
+      setShowCFOPDialog(true);
     } else {
-      onFilesProcessed(notas);
+      // Sem duplicatas e sem CFOPs restritos, processa normalmente
+      onFilesProcessed(uniqueNotas);
     }
     
     setIsProcessing(false);
@@ -144,7 +157,19 @@ export function FileUploadZone({ onFilesProcessed, isProcessing, setIsProcessing
 
   const handleConfirmDuplicates = () => {
     // Import all including duplicates
-    onFilesProcessed([...pendingNotas, ...duplicates]);
+    const todasNotas = [...pendingNotas, ...duplicates];
+    
+    // Verifica CFOPs após resolver duplicatas
+    const cfops = todasNotas.map(n => n.cfop).filter(Boolean);
+    const stats = verificarCFOPsRestritos(cfops);
+    
+    if (stats.restritos > 0 && todasNotas.length > 0) {
+      setNotasComCFOP(todasNotas);
+      setShowCFOPDialog(true);
+    } else {
+      onFilesProcessed(todasNotas);
+    }
+    
     setShowDuplicateDialog(false);
     setPendingNotas([]);
     setDuplicates([]);
@@ -153,11 +178,31 @@ export function FileUploadZone({ onFilesProcessed, isProcessing, setIsProcessing
   const handleCancelDuplicates = () => {
     // Import only non-duplicates
     if (pendingNotas.length > 0) {
-      onFilesProcessed(pendingNotas);
+      // Verifica CFOPs após resolver duplicatas
+      const cfops = pendingNotas.map(n => n.cfop).filter(Boolean);
+      const stats = verificarCFOPsRestritos(cfops);
+      
+      if (stats.restritos > 0 && pendingNotas.length > 0) {
+        setNotasComCFOP(pendingNotas);
+        setShowCFOPDialog(true);
+      } else {
+        onFilesProcessed(pendingNotas);
+      }
     }
     setShowDuplicateDialog(false);
     setPendingNotas([]);
     setDuplicates([]);
+  };
+
+  const handleConfirmCFOP = (notasAprovadas: NotaFiscal[]) => {
+    onFilesProcessed(notasAprovadas);
+    setShowCFOPDialog(false);
+    setNotasComCFOP([]);
+  };
+
+  const handleCancelCFOP = () => {
+    setShowCFOPDialog(false);
+    setNotasComCFOP([]);
   };
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -290,6 +335,14 @@ export function FileUploadZone({ onFilesProcessed, isProcessing, setIsProcessing
         duplicates={duplicates}
         onConfirm={handleConfirmDuplicates}
         onCancel={handleCancelDuplicates}
+      />
+
+      <CFOPSelectionDialog
+        open={showCFOPDialog}
+        onOpenChange={setShowCFOPDialog}
+        notas={notasComCFOP}
+        onConfirm={handleConfirmCFOP}
+        onCancel={handleCancelCFOP}
       />
 
       <ErrorDialog

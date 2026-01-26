@@ -58,6 +58,7 @@ export interface NotaFiscal {
   
   // Dados do produto (cada linha é um produto)
   produto: string;           // Nome do produto
+  cfop: string;              // CFOP da operação fiscal
   tipoMat: string;           // Tipo de material (manual)
   fornecedor: string;        // Fornecedor (manual)
   lote: string;              // Lote (manual)
@@ -923,6 +924,7 @@ interface ProdutoNota {
   quantidade: number;
   valorUnitario: number;
   aliquotaIPI: number;
+  cfop: string;
 }
 
 /**
@@ -942,6 +944,7 @@ function extractProdutos(doc: Element): ProdutoNota[] {
     const descricao = getTextContent(prod, 'xProd');
     const quantidade = getNumericContent(prod, 'qCom');
     const valorUnitario = getNumericContent(prod, 'vUnCom');
+    const cfop = getTextContent(prod, 'CFOP');
     
     // Extrair alíquota IPI
     let aliquotaIPI = 0;
@@ -961,6 +964,7 @@ function extractProdutos(doc: Element): ProdutoNota[] {
         descricao,
         quantidade: quantidade || 0,
         valorUnitario: valorUnitario || 0,
+        cfop: cfop || '',
         aliquotaIPI: aliquotaIPI || 0,
       });
     }
@@ -1041,6 +1045,7 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       danfe,
       matrizMcNf: '',
       produto: '',
+      cfop: '',
       tipoMat: '',
       fornecedor: '',
       lote: '',
@@ -1089,6 +1094,7 @@ function parseNFe(doc: Element, fileName: string): NotaFiscal[] {
       danfe,
       matrizMcNf: '',
       produto: prod.descricao,
+      cfop: prod.cfop,
       tipoMat: '',
       fornecedor: '',
       lote: '',
@@ -1181,6 +1187,7 @@ function parseCTe(doc: Element, fileName: string): NotaFiscal[] {
     danfe,
     matrizMcNf: '',
     produto: material,
+    cfop: '',
     tipoMat: '',
     fornecedor: '',
     lote: '',
@@ -1286,6 +1293,7 @@ export function parseNFeXML(xmlContent: string, fileName: string): NotaFiscal[] 
         uf: '',
         danfe: '',
         matrizMcNf: '',
+        cfop: '',
         produto: '',
         tipoMat: '',
         fornecedor: '',
